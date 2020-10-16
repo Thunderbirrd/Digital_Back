@@ -92,15 +92,29 @@ class TaskTable(db.Model, Model):
         return db.session.query(TaskTable.name).filter(TaskTable.name == name).first() is None
 
 
+# [{short_desc: short_desc, deadline}]
+
+
 class Task(db.Model, Model):
     __tablename__ = 'task'
     id = db.Column(db.Integer, primary_key=True)
-    short_desc = db.Column(db.String())
+    short_desc = db.Column(db.String(), nullable=False)
     leader = db.Column(db.Integer, db.ForeignKey(User.id))
     parent = db.Column(db.Integer, db.ForeignKey(id))
     executor = db.Column(db.Integer, db.ForeignKey(User.id))
-    taskboard_id = db.Column(db.Integer, db.ForeignKey(TaskTable.id))
+    taskboard_id = db.Column(db.Integer, db.ForeignKey(TaskTable.id), nullable=False)
     intensity = db.Column(db.Integer)
+    desc = db.Column(db.String)
+
+    def __init__(self, leader, taskboard_id, intensity, parent=0, executor=0, short_desc="", desc=""):
+        self.leader = leader
+        self.parent = parent
+        self.executor = executor
+        self.taskboard_id = taskboard_id
+        self.intensity = intensity
+        self.short_desc = short_desc
+        self.desc = desc
+        self.save()
 
     @staticmethod
     def get_task_by_id(i):
@@ -143,3 +157,18 @@ class TaskTag(db.Model, Model):
         for t in tag_id:
             tags.append(Tag.get_tag_by_id(t))
         return tags
+
+
+class TaskChildren(db.Model, Model):
+    __tablename__ = "task_children"
+    id = db.Column(db.Integer, primary_key=True)
+    parent = db.Column(db.Integer, db.ForeignKey(Task.id))
+    child = db.Column(db.Integer, db.ForeignKey(Task.id))
+
+    @staticmethod
+    def get_all_children(parent):
+        all_children = db.session.query(TaskChildren.parent).filter(TaskChildren.parent == parent).all()
+        children_IDs = []
+        for task in all_children:
+            children_IDs.append(task.child)
+        return children_IDs
