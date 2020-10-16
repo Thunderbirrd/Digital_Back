@@ -69,3 +69,21 @@ class User(db.Model, Model):
     @staticmethod
     def auth(login, password):
         return db.session.query(User).filter(User.login == login).filter(User.password == password).first()
+
+
+class Tag(db.Model, Model):
+    __tablename__ = 'tag'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(), unique=True)
+
+    def __init__(self, name):
+        self.name = name
+        self.save()
+
+    @staticmethod
+    def check_name_is_unique(name):
+        return db.session.query(Tag.name).filter(Tag.name == name).first() is None
+
+    @staticmethod
+    def get_tag_by_id(i):
+        return db.session.query(Tag.id).filter(Tag.id == i).first()
