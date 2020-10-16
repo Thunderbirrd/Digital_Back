@@ -109,3 +109,36 @@ class Task(db.Model, Model):
     @staticmethod
     def get_task_by_executor_id(i):
         return db.session.query(Task.executor).filter(Task.executor == i).first()
+
+
+class TaskTag(db.Model, Model):
+    __tablename__ = 'task_tag'
+    id_task = db.Column(db.Integer, db.ForeignKey(Task.id), nullable=False)
+    id_tag = db.Column(db.Integer, db.ForeignKey(Tag.id), nullable=False)
+
+    def __init__(self, task, tag):
+        self.id_task = task
+        self.id_tag = tag
+        self.save()
+
+    @staticmethod
+    def get_all_tasks_by_tag(tag_id):
+        manytomany = db.session.query(TaskTag.id_tag).filter(TaskTag.id_tag == tag_id).all()
+        tasks_id = []
+        for t in manytomany:
+            tasks_id.append(t.id_task)
+        tasks = []
+        for t in tasks_id:
+            tasks.append(Task.get_task_by_id(t))
+        return tasks
+
+    @staticmethod
+    def get_all_tasks_tags(task_id):
+        manytomany = db.session.query(TaskTag.id_task).filter(TaskTag.id_task == task_id).all()
+        tag_id = []
+        for t in manytomany:
+            tag_id.append(t.id_tag)
+        tags = []
+        for t in tag_id:
+            tags.append(Tag.get_tag_by_id(t))
+        return tags
