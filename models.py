@@ -1,5 +1,4 @@
 from database import db
-from flask import session
 
 
 class Model:
