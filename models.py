@@ -92,9 +92,6 @@ class TaskTable(db.Model, Model):
         return db.session.query(TaskTable.name).filter(TaskTable.name == name).first() is None
 
 
-# [{short_desc: short_desc, deadline}]
-
-
 class Task(db.Model, Model):
     __tablename__ = 'task'
     id = db.Column(db.Integer, primary_key=True)
@@ -119,6 +116,10 @@ class Task(db.Model, Model):
     @staticmethod
     def get_task_by_id(i):
         return db.session.query(Task.id).filter(Task.id == i).first()
+
+    @staticmethod
+    def get_task_by_short_desc(desc):
+        return db.session.query(Task.short_desc).filter(Task.short_desc == desc).first()
 
     @staticmethod
     def get_task_by_executor_id(i):
