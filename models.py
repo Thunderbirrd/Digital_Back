@@ -102,8 +102,9 @@ class Task(db.Model, Model):
     taskboard_id = db.Column(db.Integer, db.ForeignKey(TaskTable.id), nullable=False)
     intensity = db.Column(db.Integer)
     desc = db.Column(db.String)
+    deadline = db.Column(db.Date)
 
-    def __init__(self, leader, taskboard_id, short_desc, intensity, parent=0, executor=0, desc=""):
+    def __init__(self, leader, taskboard_id, deadline, short_desc, intensity, parent=0, executor=0, desc=""):
         self.leader = leader
         self.parent = parent
         self.executor = executor
@@ -111,6 +112,7 @@ class Task(db.Model, Model):
         self.intensity = intensity
         self.short_desc = short_desc
         self.desc = desc
+        self.deadline = deadline
         self.save()
 
     @staticmethod
@@ -169,6 +171,7 @@ class TaskChildren(db.Model, Model):
     def __init__(self, parent, child):
         self.parent = parent
         self.child = child
+        self.save()
 
     @staticmethod
     def get_all_children(parent):
