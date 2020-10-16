@@ -57,24 +57,6 @@ class User(db.Model, Model):
         return db.session.query(User.login).filter(User.login == login).first() is None
 
 
-class Tag(db.Model, Model):
-    __tablename__ = 'tag'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), unique=True)
-
-    def __init__(self, name):
-        self.name = name
-        self.save()
-
-    @staticmethod
-    def check_name_is_unique(name):
-        return db.session.query(Tag.name).filter(Tag.name == name).first() is None
-
-    @staticmethod
-    def get_tag_by_id(i):
-        return db.session.query(Tag.id).filter(Tag.id == i).first()
-
-
 class TaskTable(db.Model, Model):
     __tablename__ = 'task_table'
     id = db.Column(db.Integer, primary_key=True)
@@ -89,6 +71,25 @@ class TaskTable(db.Model, Model):
     @staticmethod
     def check_name_is_unique(name):
         return db.session.query(TaskTable.name).filter(TaskTable.name == name).first() is None
+
+
+class Tag(db.Model, Model):
+    __tablename__ = 'tag'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(), unique=True)
+    taskboard_id = db.Column(db.Integer, db.ForeignKey(TaskTable.id))
+
+    def __init__(self, name):
+        self.name = name
+        self.save()
+
+    @staticmethod
+    def check_name_is_unique(name):
+        return db.session.query(Tag.name).filter(Tag.name == name).first() is None
+
+    @staticmethod
+    def get_tag_by_id(i):
+        return db.session.query(Tag.id).filter(Tag.id == i).first()
 
 
 class Task(db.Model, Model):
