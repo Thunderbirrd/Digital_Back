@@ -106,7 +106,7 @@ class Task(db.Model, Model):
     intensity = db.Column(db.Integer)
     desc = db.Column(db.String)
 
-    def __init__(self, leader, taskboard_id, intensity, parent=0, executor=0, short_desc="", desc=""):
+    def __init__(self, leader, taskboard_id, short_desc, intensity, parent=0, executor=0, desc=""):
         self.leader = leader
         self.parent = parent
         self.executor = executor
@@ -165,10 +165,14 @@ class TaskChildren(db.Model, Model):
     parent = db.Column(db.Integer, db.ForeignKey(Task.id))
     child = db.Column(db.Integer, db.ForeignKey(Task.id))
 
+    def __init__(self, parent, child):
+        self.parent = parent
+        self.child = child
+
     @staticmethod
     def get_all_children(parent):
         all_children = db.session.query(TaskChildren.parent).filter(TaskChildren.parent == parent).all()
-        children_IDs = []
+        children_ids = []
         for task in all_children:
-            children_IDs.append(task.child)
-        return children_IDs
+            children_ids.append(task.child)
+        return children_ids
