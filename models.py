@@ -127,6 +127,10 @@ class Task(db.Model, Model):
     def get_task_by_executor_id(i):
         return db.session.query(Task.executor).filter(Task.executor == i).first()
 
+    @staticmethod
+    def get_tasks(id):
+        return db.session.query(Task.taskboard_id).filter(Task.taskboard_id == id).all()
+
 
 class TaskTag(db.Model, Model):
     __tablename__ = 'task_tag'
