@@ -90,3 +90,22 @@ class TaskTable(db.Model, Model):
     @staticmethod
     def check_name_is_unique(name):
         return db.session.query(TaskTable.name).filter(TaskTable.name == name).first() is None
+
+
+class Task(db.Model, Model):
+    __tablename__ = 'task'
+    id = db.Column(db.Integer, primary_key=True)
+    short_desc = db.Column(db.String())
+    leader = db.Column(db.Integer, db.ForeignKey(User.id))
+    parent = db.Column(db.Integer, db.ForeignKey(id))
+    executor = db.Column(db.Integer, db.ForeignKey(User.id))
+    taskboard_id = db.Column(db.Integer, db.ForeignKey(TaskTable.id))
+    intensity = db.Column(db.Integer)
+
+    @staticmethod
+    def get_task_by_id(i):
+        return db.session.query(Task.id).filter(Task.id == i).first()
+
+    @staticmethod
+    def get_task_by_executor_id(i):
+        return db.session.query(Task.executor).filter(Task.executor == i).first()
