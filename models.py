@@ -113,6 +113,7 @@ class Task(db.Model, Model):
 
 class TaskTag(db.Model, Model):
     __tablename__ = 'task_tag'
+    id = db.Column(db.Integer, primary_key=True)
     id_task = db.Column(db.Integer, db.ForeignKey(Task.id), nullable=False)
     id_tag = db.Column(db.Integer, db.ForeignKey(Tag.id), nullable=False)
 
