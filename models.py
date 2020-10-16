@@ -49,15 +49,6 @@ class User(db.Model, Model):
         return db.session.query(User).filter(User.login == login).first()
 
     @staticmethod
-    def get_current_user():
-        id = session.get("auth")
-        return db.session.query(User).filter(User.id == id).first()
-
-    @staticmethod
-    def is_authorised():
-        return User.get_current_user() is not None
-
-    @staticmethod
     def get_login_by_id(i):
         user = db.session.query(User).filter(User.id == i).first()
         return user.login
@@ -65,10 +56,6 @@ class User(db.Model, Model):
     @staticmethod
     def check_login_is_unique(login):
         return db.session.query(User.login).filter(User.login == login).first() is None
-
-    @staticmethod
-    def auth(login, password):
-        return db.session.query(User).filter(User.login == login).filter(User.password == password).first()
 
 
 class Tag(db.Model, Model):
@@ -87,3 +74,19 @@ class Tag(db.Model, Model):
     @staticmethod
     def get_tag_by_id(i):
         return db.session.query(Tag.id).filter(Tag.id == i).first()
+
+
+class TaskTable(db.Model, Model):
+    __tablename__ = 'task_table'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(), unique=True)
+    admin = db.Column(db.Integer, db.ForeignKey(User.id))
+
+    def __init__(self, name, admin_id):
+        self.name = name
+        self.admin = admin_id
+        self.save()
+
+    @staticmethod
+    def check_name_is_unique(name):
+        return db.session.query(TaskTable.name).filter(TaskTable.name == name).first() is None
