@@ -80,8 +80,10 @@ class Tag(db.Model, Model):
     tasktable_id = db.Column(db.Integer, db.ForeignKey(TaskTable.id))
     user_id = db.Column(db.Integer, db.ForeignKey(User.id))
 
-    def __init__(self, name):
+    def __init__(self, name, tasktable_id=None, user_id=None):
         self.name = name
+        self.tasktable_id = tasktable_id,
+        self.user_id = user_id
         self.save()
 
     @staticmethod

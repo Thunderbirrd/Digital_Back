@@ -180,6 +180,24 @@ def index():
     return "Hello, world"
 
 
+@app.route('/create_tag', methods=['POST'])
+def create_tag():
+    if request.form:
+        name = request.form.get("name")
+        tasktable_id = request.form.get("tasktable_id")
+        user_id = request.form.get("user_id")
+        if int(tasktable_id) != 0:
+            tag = Tag(name, tasktable_id)
+            tag.save()
+            return str(tag.id)
+        elif int(user_id) != 0:
+            tag = Tag(name, None, user_id)
+            tag.save()
+            return str(tag.id)
+        else:
+            return "Error"
+
+
 @app.route('/create_board', methods=['POST'])
 def create_board():
     if request:
@@ -235,4 +253,9 @@ def create_single_task():
             task_tag.save()
 
         return json.dumps({"id": task.id})
+
+
+@app.route('/get_tree', methods=['POST'])
+def get_tree():
+    pass
 
