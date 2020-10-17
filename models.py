@@ -108,8 +108,10 @@ class Task(db.Model, Model):
     intensity = db.Column(db.Integer)
     desc = db.Column(db.String)
     deadline = db.Column(db.Date)
+    is_single_task = db.Column(db.Boolean)
 
-    def __init__(self, leader, taskboard_id, deadline, short_desc, intensity, parent=0, executor=0, desc=""):
+    def __init__(self, leader, taskboard_id, deadline, short_desc, intensity, parent=0, executor=0, desc="",
+                 is_single=False):
         self.leader = leader
         self.parent = parent
         self.executor = executor
@@ -118,6 +120,7 @@ class Task(db.Model, Model):
         self.short_desc = short_desc
         self.desc = desc
         self.deadline = deadline
+        self.is_single_task = is_single
         self.save()
 
     @staticmethod
