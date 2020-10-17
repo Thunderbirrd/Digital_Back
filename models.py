@@ -60,7 +60,7 @@ class User(db.Model, Model):
 class TaskTable(db.Model, Model):
     __tablename__ = 'task_table'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), unique=True)
+    name = db.Column(db.String())
     admin = db.Column(db.Integer, db.ForeignKey(User.id))
 
     def __init__(self, name, admin_id):
@@ -69,8 +69,8 @@ class TaskTable(db.Model, Model):
         self.save()
 
     @staticmethod
-    def check_name_is_unique(name):
-        return db.session.query(TaskTable.name).filter(TaskTable.name == name).first() is None
+    def get_task_table_by_id(i):
+        return db.session.query(TaskTable.id).filter(TaskTable.id == i).first()
 
 
 class Tag(db.Model, Model):
@@ -181,17 +181,17 @@ class TaskTag(db.Model, Model):
 class TaskChildren(db.Model, Model):
     __tablename__ = "task_children"
     id = db.Column(db.Integer, primary_key=True)
-    parent = db.Column(db.Integer, db.ForeignKey(Task.id))
-    child = db.Column(db.Integer, db.ForeignKey(Task.id))
+    parent_id = db.Column(db.Integer, db.ForeignKey(Task.id))
+    child_id = db.Column(db.Integer, db.ForeignKey(Task.id))
 
     def __init__(self, parent, child):
-        self.parent = parent
-        self.child = child
+        self.parent_id = parent
+        self.child_id = child
         self.save()
 
     @staticmethod
     def get_all_children(parent):
-        all_children = db.session.query(TaskChildren.parent).filter(TaskChildren.parent == parent).all()
+        all_children = db.session.query(TaskChildren.parent_id).filter(TaskChildren.parent_id == parent).all()
         children_ids = []
         for task in all_children:
             children_ids.append(task.child)
@@ -213,7 +213,7 @@ class UserTag(db.Model, Model):
 
     @staticmethod
     def get_all_users_tags(user_id):
-        manytomany = db.session.query(UserTag.id_user).filter(TaskTag.id_user == user_id).all()
+        manytomany = db.session.query(UserTag.id_user).filter(UserTag.id_user == user_id).all()
         tag_id = []
         for t in manytomany:
             tag_id.append(t.id_tag)
