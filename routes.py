@@ -30,6 +30,7 @@ def login():
         if user and check_password_hash(user.password, password):
             session["auth"] = user.id
             d = {
+                "id": user.id,
                 "login": user.login,
                 "name": user.name,
                 "surname": user.surname,
