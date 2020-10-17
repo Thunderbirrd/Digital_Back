@@ -131,7 +131,7 @@ def index():
 
 
 @app.route('/create_board', methods=['POST'])
-def create_table():
+def create_board():
     if request:
         admin = request.form.get("admin")
         name = request.form.get("name")
