@@ -80,6 +80,34 @@ def create_child():
         return json.dumps({"id": task.id})
 
 
+@app.route('/get_task_by_id', methods=['POST'])
+def get_task_by_id():
+    if request.form:
+        task = request.form.get("id")
+        task = Task.get_task_by_id(task)
+        tags = list(TaskTag.get_all_tasks_tags(task.id))
+        for i in range(len(tags)):
+            tags[i] = {"id": tags[i].id, "name": tags[i].name}
+        children = list(TaskChildren.get_all_children(task.id))
+        for i in range(len(tags)):
+            children[i] = {"id": children[i].id, "short_desc": children[i].short_desc}
+        d = {
+            "id": task.id,
+            "short_desc": task.short_desc,
+            "leader": task.leader,
+            "parent": task.parent,
+            "executor": task.executor,
+            "taskboard_id": task.taskboard_id,
+            "intensity": task.intensity,
+            "desc": task.desc,
+            "deadline": task.deadline.strftime("%Y-%m-%d"),
+            "is_single_task": task.is_single_task,
+            "tags": tags,
+            "children": children
+        }
+        return json.dumps(d)
+
+
 @app.route('/getListTask', methods=['POST'])
 def get_task_list():
     if request.form:

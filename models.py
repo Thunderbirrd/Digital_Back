@@ -194,7 +194,7 @@ class TaskChildren(db.Model, Model):
         all_children = db.session.query(TaskChildren).filter(TaskChildren.parent_id == parent).all()
         children_ids = []
         for task in all_children:
-            children_ids.append(task.child)
+            children_ids.append(task.child_id)
         children = []
         for i in children_ids:
             children.append(Task.get_task_by_id(i))
