@@ -128,3 +128,29 @@ def get_task_list():
 @app.route('/', methods=['GET'])
 def index():
     return "Hello, world"
+
+
+@app.route('/create_board', methods=['POST'])
+def create_table():
+    if request:
+        admin = request.form.get("admin")
+        name = request.form.get("name")
+        table = TaskTable(name, admin)
+        table.save()
+
+        short_desc = request.form.get("short_desc")
+        leader = request.form.get("leader")
+        executor = request.form.get("executor")
+        taskboard_id = table.id
+        intensity = request.form.get("difficulty")
+        desc = request.form.get("desc")
+        deadline = request.form.get("deadline")
+        is_single_task = False
+        task = Task(leader, taskboard_id, deadline, short_desc, intensity, None, executor, desc, is_single_task)
+        task.save()
+
+        # for tag in request.form.get("tags"):
+        #     TaskTag(task.id, tag)
+
+        return json.dumps({"taskid": task.id, "tableid": table.id})
+
