@@ -1,5 +1,5 @@
 from app import app
-from flask import request, session
+from flask import request, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, Task, Tag, TaskTable, TaskTag, TaskChildren
 import json
@@ -290,6 +290,6 @@ def delete_task():
         task = Task.get_task_by_id(task_id)
         if task:
             task.delete()
-            return json.dumps("Task deleted successfully")
+            return jsonify("Task deleted successfully")
         else:
-            return json.dumps("No such task")
+            return jsonify("No such task")
