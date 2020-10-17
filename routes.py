@@ -290,6 +290,6 @@ def delete_task():
         task = Task.get_task_by_id(task_id)
         if task:
             task.delete()
-            return "Task deleted successfully"
+            return json.dumps("Task deleted successfully")
         else:
-            return "No such task"
+            return json.dumps("No such task")
