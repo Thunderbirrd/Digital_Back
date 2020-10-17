@@ -215,9 +215,8 @@ def create_board():
         is_single_task = False
         task = Task(leader, taskboard_id, deadline, short_desc, intensity, None, executor, desc, is_single_task)
         task.save()
-
-        # for tag in request.form.get("tags"):
-        #     TaskTag(task.id, tag)
+        for tag in request.form.get("tags"):
+            TaskTag(task.id, tag)
 
         return json.dumps({"taskid": task.id, "tableid": table.id})
 
