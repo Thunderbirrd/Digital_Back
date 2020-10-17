@@ -283,3 +283,14 @@ def get_tree():
 
         return json.dumps(d)
 
+
+@app.route('/delete_task', methods=['POST'])
+def delete_task():
+    if request.form:
+        task_id = request.form.get("id")
+        task = Task.get_task_by_id(task_id)
+        if task:
+            task.delete()
+            return "Task deleted successfully"
+        else:
+            return "No such task"
