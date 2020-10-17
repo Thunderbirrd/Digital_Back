@@ -70,14 +70,14 @@ class TaskTable(db.Model, Model):
 
     @staticmethod
     def get_task_table_by_id(i):
-        return db.session.query(TaskTable.id).filter(TaskTable.id == i).first()
+        return db.session.query(TaskTable).filter(TaskTable.id == i).first()
 
 
 class Tag(db.Model, Model):
     __tablename__ = 'tag'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
-    taskboard_id = db.Column(db.Integer, db.ForeignKey(TaskTable.id))
+    tasktable_id = db.Column(db.Integer, db.ForeignKey(TaskTable.id))
     user_id = db.Column(db.Integer, db.ForeignKey(User.id))
 
     def __init__(self, name):
@@ -86,15 +86,15 @@ class Tag(db.Model, Model):
 
     @staticmethod
     def get_tag_by_id(i):
-        return db.session.query(Tag.id).filter(Tag.id == i).first()
+        return db.session.query(Tag).filter(Tag.id == i).first()
 
     @staticmethod
     def get_all_task_boards_tags(task_board_id):
-        return db.session.query(Tag.taskboard_id).filter(Tag.taskboard_id == task_board_id).all()
+        return db.session.query(Tag).filter(Tag.tasktable_id == task_board_id).all()
 
     @staticmethod
     def get_all_users_tags(id_user):
-        return db.session.query(Tag.user_id).filter(Tag.user_id == id_user).all()
+        return db.session.query(Tag).filter(Tag.user_id == id_user).all()
 
 
 class Task(db.Model, Model):
@@ -104,13 +104,13 @@ class Task(db.Model, Model):
     leader = db.Column(db.Integer, db.ForeignKey(User.id))
     parent = db.Column(db.Integer, db.ForeignKey(id))
     executor = db.Column(db.Integer, db.ForeignKey(User.id))
-    taskboard_id = db.Column(db.Integer, db.ForeignKey(TaskTable.id), nullable=False)
+    taskboard_id = db.Column(db.Integer, db.ForeignKey(TaskTable.id))
     intensity = db.Column(db.Integer)
     desc = db.Column(db.String)
     deadline = db.Column(db.Date)
     is_single_task = db.Column(db.Boolean)
 
-    def __init__(self, leader, taskboard_id, deadline, short_desc, intensity, parent=0, executor=0, desc="",
+    def __init__(self, leader, taskboard_id, deadline, short_desc, intensity, parent=None, executor=0, desc="",
                  is_single=False):
         self.leader = leader
         self.parent = parent
@@ -125,23 +125,23 @@ class Task(db.Model, Model):
 
     @staticmethod
     def get_task_by_id(i):
-        return db.session.query(Task.id).filter(Task.id == i).first()
+        return db.session.query(Task).filter(Task.id == i).first()
 
     @staticmethod
     def get_task_by_short_desc(desc):
-        return db.session.query(Task.short_desc).filter(Task.short_desc == desc).first()
+        return db.session.query(Task).filter(Task.short_desc == desc).first()
 
     @staticmethod
     def get_all_tasks_by_executor_id(i):
-        return db.session.query(Task.executor).filter(Task.executor == i).all()
+        return db.session.query(Task.id).filter(Task.executor == i).all()
 
     @staticmethod
     def get_all_tasks_by_leader_id(i):
-        return db.session.query(Task.leader).filter(Task.leader == i).all()
+        return db.session.query(Task.id).filter(Task.leader == i).all()
 
     @staticmethod
     def get_all_task_boards_tasks(i):
-        return db.session.query(Task.taskboard_id).filter(Task.taskboard_id == i).all()
+        return db.session.query(Task).filter(Task.taskboard_id == i).all()
 
 
 class TaskTag(db.Model, Model):
@@ -157,7 +157,7 @@ class TaskTag(db.Model, Model):
 
     @staticmethod
     def get_all_tasks_by_tag(tag_id):
-        manytomany = db.session.query(TaskTag.id_tag).filter(TaskTag.id_tag == tag_id).all()
+        manytomany = db.session.query(TaskTag).filter(TaskTag.id_tag == tag_id).all()
         tasks_id = []
         for t in manytomany:
             tasks_id.append(t.id_task)
@@ -168,7 +168,7 @@ class TaskTag(db.Model, Model):
 
     @staticmethod
     def get_all_tasks_tags(task_id):
-        manytomany = db.session.query(TaskTag.id_task).filter(TaskTag.id_task == task_id).all()
+        manytomany = db.session.query(TaskTag).filter(TaskTag.id_task == task_id).all()
         tag_id = []
         for t in manytomany:
             tag_id.append(t.id_tag)
@@ -191,7 +191,7 @@ class TaskChildren(db.Model, Model):
 
     @staticmethod
     def get_all_children(parent):
-        all_children = db.session.query(TaskChildren.parent_id).filter(TaskChildren.parent_id == parent).all()
+        all_children = db.session.query(TaskChildren).filter(TaskChildren.parent_id == parent).all()
         children_ids = []
         for task in all_children:
             children_ids.append(task.child)
@@ -200,24 +200,3 @@ class TaskChildren(db.Model, Model):
             children.append(Task.get_task_by_id(i))
         return children
 
-
-class UserTag(db.Model, Model):
-    id = db.Column(db.Integer, primary_key=True)
-    id_user = db.Column(db.Integer, db.ForeignKey(User.id))
-    id_tag = db.Column(db.Integer, db.ForeignKey(Tag.id))
-
-    def __init__(self, user, tag):
-        self.id_user = user
-        self.id_tag = tag
-        self.save()
-
-    @staticmethod
-    def get_all_users_tags(user_id):
-        manytomany = db.session.query(UserTag.id_user).filter(UserTag.id_user == user_id).all()
-        tag_id = []
-        for t in manytomany:
-            tag_id.append(t.id_tag)
-        tags = []
-        for t in tag_id:
-            tags.append(Tag.get_tag_by_id(t))
-        return tags

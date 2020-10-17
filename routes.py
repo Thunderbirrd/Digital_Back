@@ -3,6 +3,7 @@ from flask import request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, Task, Tag, TaskTable, TaskTag, TaskChildren
 import json
+import datetime
 
 
 @app.route('/register', methods=['POST'])
@@ -67,7 +68,6 @@ def create_child():
         intensity = request.form.get("difficulty")
         tags = request.form.get("tags")
         parent = Task.get_task_by_id(parent)
-        parent = Task.query.get(parent[0])
         parent_id = parent.id
         task = Task(leader, parent.taskboard_id, deadline, short_desc, intensity, parent_id, executor, desc, False)
         task.save()
@@ -78,6 +78,51 @@ def create_child():
             task_tag = TaskTag(int(task.id), int(tag))
             task_tag.save()
         return json.dumps({"id": task.id})
+
+
+@app.route('/getListTask', methods=['POST'])
+def get_task_list():
+    if request.form:
+        user_id = int(request.form.get("id"))
+        tasks = []
+        lead = Task.get_all_tasks_by_leader_id(user_id)
+        ex = Task.get_all_tasks_by_executor_id(user_id)
+        print(lead)
+        print(ex)
+        if lead:
+            for le in lead:
+                task = Task.get_task_by_id(le)
+                tags = list(TaskTag.get_all_tasks_tags(task.id))
+                tasks.append({
+                    "id": task.id,
+                    "isSingleTask": task.is_single_task,
+                    "leader": task.leader,
+                    "executor": task.executor,
+                    "shortdescription": task.short_desc,
+                    "deadline": task.deadline.strftime("%Y-%m-%d"),
+                    "difficulty": task.intensity,
+                    "tasktableid": task.taskboard_id,
+                    "tags": tags
+                })
+        if ex:
+            for e in ex:
+                task = Task.get_task_by_id(e)
+                tags = list(TaskTag.get_all_tasks_tags(task.id))
+                for i in range(len(tags)):
+                    tags[i] = {"id": tags[i].id, "name": tags[i].name}
+                tasks.append({
+                    "id": task.id,
+                    "isSingleTask": task.is_single_task,
+                    "leader": task.leader,
+                    "executor": task.executor,
+                    "shortdescription": task.short_desc,
+                    "deadline": task.deadline.strftime("%Y-%m-%d"),
+                    "difficulty": task.intensity,
+                    "tasktableid": task.taskboard_id,
+                    "tags": tags
+                })
+        print(tasks)
+        return json.dumps(tasks)
 
 
 @app.route('/', methods=['GET'])
