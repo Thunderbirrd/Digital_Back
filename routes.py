@@ -293,9 +293,13 @@ def delete_task():
             resp = Response(jsonify("Task deleted successfully"))
             resp.headers["Access-Control-Allow-Origin"] = "*"
             resp.headers["Access-Control-Allow-Credentials"] = True
+            resp.headers["Access-Control-Allow-Methods"] = 'POST'
+            resp.headers["Access-Control-Allow-Headers"] = 'Content-Type, Authorization'
             return resp
         else:
             resp = Response(jsonify("No such task"))
             resp.headers["Access-Control-Allow-Origin"] = "*"
             resp.headers["Access-Control-Allow-Credentials"] = True
+            resp.headers["Access-Control-Allow-Methods"] = 'POST'
+            resp.headers["Access-Control-Allow-Headers"] = 'Content-Type, Authorization'
             return resp
