@@ -76,20 +76,25 @@ class TaskTable(db.Model, Model):
 class Tag(db.Model, Model):
     __tablename__ = 'tag'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), unique=True)
+    name = db.Column(db.String())
     taskboard_id = db.Column(db.Integer, db.ForeignKey(TaskTable.id))
+    user_id = db.Column(db.Integer, db.ForeignKey(User.id))
 
     def __init__(self, name):
         self.name = name
         self.save()
 
     @staticmethod
-    def check_name_is_unique(name):
-        return db.session.query(Tag.name).filter(Tag.name == name).first() is None
-
-    @staticmethod
     def get_tag_by_id(i):
         return db.session.query(Tag.id).filter(Tag.id == i).first()
+
+    @staticmethod
+    def get_all_task_boards_tags(task_board_id):
+        return db.session.query(Tag.taskboard_id).filter(Tag.taskboard_id == task_board_id).all()
+
+    @staticmethod
+    def get_all_users_tags(id_user):
+        return db.session.query(Tag.user_id).filter(Tag.user_id == id_user).all()
 
 
 class Task(db.Model, Model):
@@ -124,12 +129,16 @@ class Task(db.Model, Model):
         return db.session.query(Task.short_desc).filter(Task.short_desc == desc).first()
 
     @staticmethod
-    def get_task_by_executor_id(i):
-        return db.session.query(Task.executor).filter(Task.executor == i).first()
+    def get_all_tasks_by_executor_id(i):
+        return db.session.query(Task.executor).filter(Task.executor == i).all()
 
     @staticmethod
-    def get_tasks(id):
-        return db.session.query(Task.taskboard_id).filter(Task.taskboard_id == id).all()
+    def get_all_tasks_by_leader_id(i):
+        return db.session.query(Task.leader).filter(Task.leader == i).all()
+
+    @staticmethod
+    def get_all_task_boards_tasks(i):
+        return db.session.query(Task.taskboard_id).filter(Task.taskboard_id == i).all()
 
 
 class TaskTag(db.Model, Model):
@@ -183,4 +192,7 @@ class TaskChildren(db.Model, Model):
         children_ids = []
         for task in all_children:
             children_ids.append(task.child)
-        return children_ids
+        children = []
+        for i in children_ids:
+            children.append(Task.get_task_by_id(i))
+        return children
