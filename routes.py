@@ -22,6 +22,17 @@ def register():
             return "Такой логин уже занят"
 
 
+@app.route('/get_user_id_by_login', methods=['POST'])
+def get_user_id_by_login():
+    if request.form:
+        user_login = request.form.get("login")
+        user = User.get_user_by_login(user_login)
+        if user:
+            return str(user.id)
+        else:
+            return "No such user"
+
+
 @app.route('/login', methods=['POST'])
 def login():
     if request.form:
@@ -176,7 +187,6 @@ def create_board():
         name = request.form.get("name")
         table = TaskTable(name, admin)
         table.save()
-
         short_desc = request.form.get("short_desc")
         leader = request.form.get("leader")
         executor = request.form.get("executor")
@@ -192,4 +202,37 @@ def create_board():
         #     TaskTag(task.id, tag)
 
         return json.dumps({"taskid": task.id, "tableid": table.id})
+
+
+@app.route('/change_task_status', methods=['POST'])
+def change_task_status():
+    if request.form:
+        task_id = request.form.get("id")
+        task = Task.get_task_by_id(task_id)
+        if task:
+            task.change_task_status()
+            task.save()
+            return f"New task status is {task.done}"
+        else:
+            return "No such task"
+
+
+@app.route('/create_single_task', methods=['POST'])
+def create_single_task():
+    if request.form:
+        short_desc = request.form.get("short_desc")
+        desc = request.form.get("desc")
+        leader = int(request.form.get("leader"))
+        executor = int(request.form.get("executor"))
+        intensity = int(request.form.get("difficulty"))
+        deadline = request.form.get("deadline")
+        tags = request.form.get("tags")
+        task = Task(leader, None, deadline, short_desc, intensity, None, executor, desc, True, False)
+        task.save()
+        tags = tags.split(",")
+        for tag in tags:
+            task_tag = TaskTag(task.id, tag)
+            task_tag.save()
+
+        return json.dumps({"id": task.id})
 

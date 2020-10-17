@@ -109,9 +109,10 @@ class Task(db.Model, Model):
     desc = db.Column(db.String)
     deadline = db.Column(db.Date)
     is_single_task = db.Column(db.Boolean)
+    done = db.Column(db.Boolean)
 
     def __init__(self, leader, taskboard_id, deadline, short_desc, intensity, parent=None, executor=0, desc="",
-                 is_single=False):
+                 is_single=False, done=False):
         self.leader = leader
         self.parent = parent
         self.executor = executor
@@ -121,11 +122,20 @@ class Task(db.Model, Model):
         self.desc = desc
         self.deadline = deadline
         self.is_single_task = is_single
+        self.done = done
         self.save()
 
     @staticmethod
     def get_task_by_id(i):
         return db.session.query(Task).filter(Task.id == i).first()
+
+    def change_task_status(self):
+        if self.done:
+            self.done = False
+            self.save()
+        else:
+            self.done = True
+            self.save()
 
     @staticmethod
     def get_task_by_short_desc(desc):
