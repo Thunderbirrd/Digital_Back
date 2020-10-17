@@ -1,0 +1,58 @@
+.list_dashboards {
+    background-color: rgb(207, 207, 207);
+    position: relative;
+    padding: 2px 5px 4px 5px;
+}
+
+.list_dashboards_list {
+    position: relative;
+    left: -15px;
+    display: flex;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+:root {
+    --deg-skew_list_dashboards: 15deg
+}
+
+.list_dashboards_item {
+    background-color: rgb(180, 180, 180);
+    -webkit-transform: skew(calc(-1 * var(--deg-skew_list_dashboards)), 0deg);
+    -moz-transform: skew(calc(-1 * var(--deg-skew_list_dashboards)), 0deg);
+    -o-transform: skew(calc(-1 * var(--deg-skew_list_dashboards)), 0deg);
+    -ms-transform: skew(calc(-1 * var(--deg-skew_list_dashboards)), 0deg);
+    transform: skew(calc(-1 * var(--deg-skew_list_dashboards)), 0deg);
+    padding: 3px 10px;
+}
+
+.list_dashboards_item > :nth-child(n) {
+    -webkit-transform: skew(var(--deg-skew_list_dashboards), 0deg);
+    -moz-transform:skew(var(--deg-skew_list_dashboards), 0deg);
+    -o-transform:skew(var(--deg-skew_list_dashboards), 0deg);
+    -ms-transform:skew(var(--deg-skew_list_dashboards), 0deg);
+    transform: skew(var(--deg-skew_list_dashboards), 0deg);
+    display: block;
+}
+
+.list_dashboards_item:first-child {
+    padding-left: 20px;
+}
+
+.list_dashboards_item:not(:first-child) {
+    margin-left: 2px;
+}
+
+.list_dashboards_item.list_dashboards_add {
+    background-color: rgb(77, 77, 77);
+    margin-bottom: 4px;
+    margin-top: 4px;
+    padding-top: 0;
+    cursor: pointer;
+    height: 12px;
+}
+
+.list_dashboards_item.list_dashboards_add button{
+    color: white;
+    cursor: pointer;
+}
