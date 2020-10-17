@@ -3,7 +3,6 @@ from flask import request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, Task, Tag, TaskTable, TaskTag, TaskChildren
 import json
-import datetime
 
 
 @app.route('/register', methods=['POST'])
@@ -100,7 +99,7 @@ def get_task_by_id():
         for i in range(len(tags)):
             tags[i] = {"id": tags[i].id, "name": tags[i].name}
         children = list(TaskChildren.get_all_children(task.id))
-        for i in range(len(tags)):
+        for i in range(len(children)):
             children[i] = {"id": children[i].id, "short_desc": children[i].short_desc}
         d = {
             "id": task.id,
@@ -143,6 +142,8 @@ def get_task_list():
             for le in lead:
                 task = Task.get_task_by_id(le.id)
                 tags = list(TaskTag.get_all_tasks_tags(task.id))
+                for i in range(len(tags)):
+                    tags[i] = {"id": tags[i].id, "name": tags[i].name}
                 tasks.append({
                     "id": task.id,
                     "isSingleTask": task.is_single_task,
@@ -171,7 +172,6 @@ def get_task_list():
                     "tasktableid": task.taskboard_id,
                     "tags": tags
                 })
-        print(tasks)
         return json.dumps(tasks)
 
 
@@ -257,5 +257,29 @@ def create_single_task():
 
 @app.route('/get_tree', methods=['POST'])
 def get_tree():
-    pass
+    if request.form:
+        task_table = request.form.get("id")
+        tasks = Task.get_all_task_boards_tasks(int(task_table))
+        d = []
+        for task in tasks:
+            tags = list(TaskTag.get_all_tasks_tags(task.id))
+            for i in range(len(tags)):
+                tags[i] = {"id": tags[i].id, "name": tags[i].name}
+            children = list(TaskChildren.get_all_children(task.id))
+            for i in range(len(children)):
+                children[i] = {"id": children[i].id, "short_desc": children[i].short_desc}
+            d.append({
+                "id": task.id,
+                "isSingleTask": task.is_single_task,
+                "leader": task.leader,
+                "executor": task.executor,
+                "shortdescription": task.short_desc,
+                "deadline": task.deadline.strftime("%Y-%m-%d"),
+                "difficulty": task.intensity,
+                "tasktableid": task.taskboard_id,
+                "tags": tags,
+                "children": children
+            })
+
+        return json.dumps(d)
 
