@@ -35,10 +35,10 @@ def login():
             ex = Task.get_all_tasks_by_executor_id(user.id)
             lead = Task.get_all_tasks_by_leader_id(user.id)
             for task in ex:
-                if all_tasks_tables_id.count(task.taskboard_id) == 0:
+                if all_tasks_tables_id.count(task.taskboard_id) == 0 and task.taskboard_id:
                     all_tasks_tables_id.append(task.taskboard_id)
             for task in lead:
-                if all_tasks_tables_id.count(task.taskboard_id) == 0:
+                if all_tasks_tables_id.count(task.taskboard_id) == 0 and task.taskboard_id:
                     all_tasks_tables_id.append(task.taskboard_id)
             for i in all_tasks_tables_id:
                 task_table = TaskTable.get_task_table_by_id(i)
@@ -59,7 +59,7 @@ def login():
 @app.route('/createChild', methods=['POST'])
 def create_child():
     if request.form:
-        parent = request.form.get("idParentTask")
+        parent = request.form.get("parent")
         leader = request.form.get("leader")
         executor = request.form.get("executor")
         deadline = request.form.get("deadline")
@@ -67,7 +67,7 @@ def create_child():
         desc = request.form.get("desc")
         intensity = request.form.get("difficulty")
         tags = request.form.get("tags")
-        parent = Task.get_task_by_id(parent)
+        parent = Task.get_task_by_id(int(parent))
         parent_id = parent.id
         task = Task(leader, parent.taskboard_id, deadline, short_desc, intensity, parent_id, executor, desc, False)
         task.save()
@@ -108,6 +108,19 @@ def get_task_by_id():
         return json.dumps(d)
 
 
+@app.route('/get_tag_by_id', methods=['POST'])
+def get_tag_by_id():
+    if request.form:
+        tag = request.form.get("id")
+        tag = Tag.get_tag_by_id(tag)
+        return {
+            "id": tag.id,
+            "name": tag.name,
+            "tasktable_id": tag.tasktable_id,
+            "user_id": tag.user_id
+        }
+
+
 @app.route('/getListTask', methods=['POST'])
 def get_task_list():
     if request.form:
@@ -115,11 +128,9 @@ def get_task_list():
         tasks = []
         lead = Task.get_all_tasks_by_leader_id(user_id)
         ex = Task.get_all_tasks_by_executor_id(user_id)
-        print(lead)
-        print(ex)
         if lead:
             for le in lead:
-                task = Task.get_task_by_id(le)
+                task = Task.get_task_by_id(le.id)
                 tags = list(TaskTag.get_all_tasks_tags(task.id))
                 tasks.append({
                     "id": task.id,
@@ -134,7 +145,7 @@ def get_task_list():
                 })
         if ex:
             for e in ex:
-                task = Task.get_task_by_id(e)
+                task = Task.get_task_by_id(e.id)
                 tags = list(TaskTag.get_all_tasks_tags(task.id))
                 for i in range(len(tags)):
                     tags[i] = {"id": tags[i].id, "name": tags[i].name}

@@ -133,11 +133,11 @@ class Task(db.Model, Model):
 
     @staticmethod
     def get_all_tasks_by_executor_id(i):
-        return db.session.query(Task.id).filter(Task.executor == i).all()
+        return db.session.query(Task).filter(Task.executor == i).all()
 
     @staticmethod
     def get_all_tasks_by_leader_id(i):
-        return db.session.query(Task.id).filter(Task.leader == i).all()
+        return db.session.query(Task).filter(Task.leader == i).all()
 
     @staticmethod
     def get_all_task_boards_tasks(i):
