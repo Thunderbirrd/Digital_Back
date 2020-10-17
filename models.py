@@ -199,3 +199,25 @@ class TaskChildren(db.Model, Model):
         for i in children_ids:
             children.append(Task.get_task_by_id(i))
         return children
+
+
+class UserTag(db.Model, Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_user = db.Column(db.Integer, db.ForeignKey(User.id))
+    id_tag = db.Column(db.Integer, db.ForeignKey(Tag.id))
+
+    def __init__(self, user, tag):
+        self.id_user = user
+        self.id_tag = tag
+        self.save()
+
+    @staticmethod
+    def get_all_users_tags(user_id):
+        manytomany = db.session.query(UserTag.id_user).filter(TaskTag.id_user == user_id).all()
+        tag_id = []
+        for t in manytomany:
+            tag_id.append(t.id_tag)
+        tags = []
+        for t in tag_id:
+            tags.append(Tag.get_tag_by_id(t))
+        return tags
