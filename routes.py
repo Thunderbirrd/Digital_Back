@@ -7,7 +7,7 @@ import json
 
 @app.route('/register', methods=['POST'])
 def register():
-    if request.form:
+    if request.data:
         login = request.form.get("login")
         password = request.form.get("password")
         name = request.form.get("name")
@@ -23,7 +23,7 @@ def register():
 
 @app.route('/get_user_id_by_login', methods=['POST'])
 def get_user_id_by_login():
-    if request.form:
+    if request.data:
         user_login = request.form.get("login")
         user = User.get_user_by_login(user_login)
         if user:
@@ -34,7 +34,7 @@ def get_user_id_by_login():
 
 @app.route('/login', methods=['POST'])
 def login():
-    if request.form:
+    if request.data:
         login = request.form.get("login")
         password = request.form.get("password")
         user = User.get_user_by_login(login)
@@ -68,7 +68,7 @@ def login():
 
 @app.route('/createChild', methods=['POST'])
 def create_child():
-    if request.form:
+    if request.data:
         parent = request.form.get("parent")
         leader = request.form.get("leader")
         executor = request.form.get("executor")
@@ -92,7 +92,7 @@ def create_child():
 
 @app.route('/get_task_by_id', methods=['POST'])
 def get_task_by_id():
-    if request.form:
+    if request.data:
         task = request.form.get("id")
         task = Task.get_task_by_id(task)
         tags = list(TaskTag.get_all_tasks_tags(task.id))
@@ -120,7 +120,7 @@ def get_task_by_id():
 
 @app.route('/get_tag_by_id', methods=['POST'])
 def get_tag_by_id():
-    if request.form:
+    if request.data:
         tag = request.form.get("id")
         tag = Tag.get_tag_by_id(tag)
         return {
@@ -133,7 +133,7 @@ def get_tag_by_id():
 
 @app.route('/getListTask', methods=['POST'])
 def get_task_list():
-    if request.form:
+    if request.data:
         user_id = int(request.form.get("id"))
         tasks = []
         lead = Task.get_all_tasks_by_leader_id(user_id)
@@ -182,7 +182,7 @@ def index():
 
 @app.route('/create_tag', methods=['POST'])
 def create_tag():
-    if request.form:
+    if request.data:
         name = request.form.get("name")
         tasktable_id = request.form.get("tasktable_id")
         user_id = request.form.get("user_id")
@@ -200,7 +200,7 @@ def create_tag():
 
 @app.route('/create_board', methods=['POST'])
 def create_board():
-    if request:
+    if request.data:
         admin = request.form.get("admin")
         name = request.form.get("name")
         table = TaskTable(name, admin)
@@ -223,7 +223,7 @@ def create_board():
 
 @app.route('/change_task_status', methods=['POST'])
 def change_task_status():
-    if request.form:
+    if request.data:
         task_id = request.form.get("id")
         task = Task.get_task_by_id(task_id)
         if task:
@@ -236,7 +236,7 @@ def change_task_status():
 
 @app.route('/create_single_task', methods=['POST'])
 def create_single_task():
-    if request.form:
+    if request.data:
         short_desc = request.form.get("short_desc")
         desc = request.form.get("desc")
         leader = int(request.form.get("leader"))
@@ -256,7 +256,7 @@ def create_single_task():
 
 @app.route('/get_tree', methods=['POST'])
 def get_tree():
-    if request.form:
+    if request.data:
         task_table = request.form.get("id")
         tasks = Task.get_all_task_boards_tasks(int(task_table))
         d = []
@@ -285,8 +285,8 @@ def get_tree():
 
 @app.route('/delete_task', methods=['POST'])
 def delete_task():
-    if request.form:
-        task_id = request.form.get("id")
+    if request.data:
+        task_id = json.loads(request.data)["id"]
         task = Task.get_task_by_id(task_id)
         if task:
             task.delete()
