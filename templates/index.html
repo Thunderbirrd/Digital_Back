@@ -121,7 +121,10 @@
                     <span class="list_task_title2"><input type="text" class="list_task_input_color" name="executor"></span>
                 </span>
                 <span class="list_task_title1">Сложность:
-                    <span class="list_task_title2"><progress value="1" max="5"></progress></span>
+                    <span class="list_task_title2">
+                        <input type="range" step="1" min="1" max="5" list="rangeList" onchange="document.getElementById('rangeValue').innerHTML = this.value;">
+                        <span id="rangeValue">3</span>
+                    </span>
                 </span>
                 <span class="list_task_title1"> Дедлайн:
                     <span class="list_task_title2"><input type="date" class="list_task_input_color" name="deadline"></span>
