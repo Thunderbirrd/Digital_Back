@@ -315,11 +315,11 @@ def delete_task():
 
 @app.route('/get_boards', methods=['POST'])
 def get_boards():
-    if request:
-        queryset = TaskTable.get_all_task_table_by_id(json.loads(request.data)["id"])
+    if request.data:
+        queryset = TaskTable.get_all_task_table_by_id(int(json.loads(request.data)["id"]))
         data = []
         for table in queryset:
-            data.append({"id": table["id"], "name": table["name"]})
+            data.append({"id": table.id, "name": table.name})
         return json.dumps(data)
     return "None"
 
