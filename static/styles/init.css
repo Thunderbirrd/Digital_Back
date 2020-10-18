@@ -1,5 +1,4 @@
 * {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     padding: 0;
     margin: 0;
 }
@@ -15,9 +14,8 @@ li {
 }
 
 body {
-    font-family: "Helvetica Neue", serif;
     display: grid;
-    grid-template-columns: 373px 1fr;
+    grid-template-columns: auto 1fr;
     grid-template-rows: auto 1fr auto;
     height: 100vh;
 }
