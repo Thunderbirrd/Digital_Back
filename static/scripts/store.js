@@ -1,7 +1,7 @@
 const store = {
     id: -1,
     tasks: [],
-    dashboards: []
+    tashboards: []
 }
 
 const tree = {

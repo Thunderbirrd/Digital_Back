@@ -1,0 +1,23 @@
+.my_wrap {
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+.my_div {
+    background-color: white;
+    position: absolute;
+    padding: 30px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.my_div button {
+    cursor: pointer;
+    border: 1px solid black;
+}

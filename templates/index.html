@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,14 +16,22 @@
     <link rel="stylesheet" href="static/styles/right_menue.css">
     <link rel="stylesheet" href="static/styles/list_new_task.css">
     <link rel="stylesheet" href="static/styles/select_box.css">
+    <link rel="stylesheet" href="static/styles/my.css">
 
     <script src="https://cdn.anychart.com/releases/8.9.0/js/graphics.min.js" type="text/javascript"></script>
 </head>
+
 <body>
+    <div class="create_tag_wrap my_wrap">
+        <div class="create_tag my_div">
+            Имя тегга: <input type="text" id="input_create_tag" placeholder="Имя тегга">
+            <button id="button_create_tag">Создать тег</button>
+        </div>
+    </div>
     <div class="managment_buttons">
         <p>Modern<br>Task Manager</p>
-        <button class="managment_buttons_add">Добавить</button>
-        <button class="managment_buttons_remove">Удалить</button>
+        <button class="managment_buttons_add hide">Добавить</button>
+        <button class="managment_buttons_remove hide">Удалить</button>
     </div>
     <div class="filter">
         <div class="filter_list_boards">
@@ -37,12 +46,13 @@
                 <div class="selected" data-name="Атравматичная чистка" data-price="5500">
                     Доски
                 </div>
-                </div>
             </div>
+        </div>
 
-        <div id="bt1" class="button1" ><img style="background-color: white" src="static/img/menue.png" height="56px"width="100%"></div>
+        <div id="bt1" class="button1"><img style="background-color: white" src="static/img/menue.png" height="56px"
+                width="100%"></div>
     </div>
-    <div class="list_tasks">
+    <div class="list_tasks hide">
         <ul>
         </ul>
     </div>
@@ -52,29 +62,41 @@
             <div class="tree">
                 <div id="contauner"></div>
             </div>
-            
+
             <button class="scale scaleIncrease">+</button>
             <button class="scale scaleOut">&ndash;</button>
         </div>
 
         <div id="s_panel">
-            <center><p class="li">Фильтровать по:</p></center>
-            <left><p class="li">Тегам:</p></left>
-            <left><p class="li">Сотрудникам:</p></left>
+            <center>
+                <p class="li">Фильтровать по:</p>
+            </center>
+            <left>
+                <p class="li">Тегам:</p>
+            </left>
+            <left>
+                <p class="li">Сотрудникам:</p>
+            </left>
 
             <div class="cl3">
-                <center><p class="li">Отсортировать по:</p></center>
-                <p class = "li">Дедлайнам</p>
-                <div class="cl"><label class="li"><input type="checkbox">Сначала ближайшие</label><label class="ri"><input type="checkbox">Сначала дальние</label></div>
+                <center>
+                    <p class="li">Отсортировать по:</p>
+                </center>
+                <p class="li">Дедлайнам</p>
+                <div class="cl"><label class="li"><input type="checkbox">Сначала ближайшие</label><label
+                        class="ri"><input type="checkbox">Сначала дальние</label></div>
                 <p class="li">Дате обновления</p>
-                <div class="cl"><label class="li"><input type="checkbox">Сначала новые</label><label class="ri"><input type="checkbox">Сначала дальние</label></div>
+                <div class="cl"><label class="li"><input type="checkbox">Сначала новые</label><label class="ri"><input
+                            type="checkbox">Сначала дальние</label></div>
                 <p class="li">Сложности</p>
-                <div class="cl"><label class="li"><input type="checkbox">Сначала сложные</label><label class="ri"><input type="checkbox">Сначала простые</label></div>
+                <div class="cl"><label class="li"><input type="checkbox">Сначала сложные</label><label class="ri"><input
+                            type="checkbox">Сначала простые</label></div>
             </div>
         </div>
 
         <div class="list_new_task hide">
-            <p class="list_task_title"><b>Краткое описание задачи</b><button class="list_task_button">Сохранить</button> </p>        
+            <p class="list_task_title"><b>Краткое описание задачи</b><button class="list_task_button">Сохранить</button>
+            </p>
 
             <input type="text" class="list_task_input1" name="short_descpription" maxlength="50">
             <p><b>Полное описание задачи</b></p>
@@ -82,31 +104,37 @@
 
             <div class="list_task_table">
                 <span class="list_task_title1">
-                    Контролирующий: 
-                    <span class="list_task_title2"><input type="text" class="list_task_input_color" id="checking" name="checking"></span>
-                </span> 
+                    Контролирующий:
+                    <span class="list_task_title2"><input type="text" class="list_task_input_color" id="checking"
+                            name="checking"></span>
+                </span>
                 <span class="list_task_title1">
                     Исполнитель:
-                    <span class="list_task_title2"><input type="text" class="list_task_input_color" id="executor" name="executor"></span>
+                    <span class="list_task_title2"><input type="text" class="list_task_input_color" id="executor"
+                            name="executor"></span>
                 </span>
                 <span class="list_task_title1">Сложность:
                     <span class="list_task_title2">
-                        <input type="range" step="1" min="1" max="5" list="rangeList" onchange="document.getElementById('rangeValue').innerHTML = this.value;">
+                        <input type="range" step="1" min="1" max="5" list="rangeList"
+                            onchange="document.getElementById('rangeValue').innerHTML = this.value;">
                         <span id="rangeValue">3</span>
                     </span>
                 </span>
                 <span class="list_task_title1"> Дедлайн:
-                    <span class="list_task_title2"><input type="date" class="list_task_input_color" id="deadline" name="deadline"></span>
+                    <span class="list_task_title2"><input type="date" class="list_task_input_color" id="deadline"
+                            name="deadline"></span>
                 </span>
             </div>
 
             <p><b>Теги </b>
                 <span class="list_task_tag">frontend <button style="cursor: pointer;">X</button></span>
                 <input type="text" class="list_task_input_color"></p>
+                <button id="create_tag">создать тег</button>
         </div>
     </main>
     <div class="list_dashboards">
         <ul class="list_dashboards_list">
+            <li class="list_dashboards_item" id="zero_panel"><span>Контрольная панель</span></li>
             <li class="list_dashboards_item list_dashboards_add"><button>+</button></li>
         </ul>
     </div>
@@ -114,15 +142,39 @@
     <script src="static/scripts/url.js"></script>
     <script src="static/scripts/store.js"></script>
     <script src="static/scripts/httpHelper.js"></script>
+    <script src="static/scripts/listDashboards.js"></script>
     <script src="static/scripts/tree.js"></script>
     <script src="static/scripts/events.js"></script>
     <script src="static/scripts/maker.js"></script>
     <script src="static/scripts/initDatas.js"></script>
     <script>
+        (() => {
+            const managment_buttons_add = document.querySelector(".managment_buttons_add");
+            const managment_buttons_remove = document.querySelector(".managment_buttons_remove");
+            const list_tasks = document.querySelector(".list_tasks");
+            const wrap_tree = document.querySelector(".wrap_tree");
+
+            document.querySelectorAll(".list_dashboards_list li:not(:last-child)").forEach(li => {
+                if (li.id === "zero_panel") {
+                    managment_buttons_add.classList.remove("hide");
+                    managment_buttons_remove.remove("hide");
+                    list_tasks.classList.remove("hide");
+                    wrap_tree.classList.add("hide");
+                } else {
+                    managment_buttons_add.classList.add("hide");
+                    managment_buttons_remove.add("hide");
+                    list_tasks.classList.add("hide");
+                    wrap_tree.classList.remove("hide");
+                }
+            });
+        });
+    </script>
+    <script>
         let panel = document.getElementById("s_panel")
-        document.querySelector("#bt1 img").addEventListener("click", ()=>{
+        document.querySelector("#bt1 img").addEventListener("click", () => {
             panel.classList.toggle("opened_panel")
         })
     </script>
 </body>
+
 </html>

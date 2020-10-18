@@ -152,3 +152,15 @@ const delete_task = async (id) => {
     });
     return await responce.json();
 }
+
+const getTashboards = async (id) => {
+    const responce = await fetch("/get_boards", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify({id})
+    });
+
+    return await responce.json();
+}
