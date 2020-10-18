@@ -216,7 +216,8 @@ def create_board():
         task = Task(leader, taskboard_id, deadline, short_desc, intensity, None, executor, desc, is_single_task)
         task.save()
         for tag in str(json.loads(request.data)["tags"]).split(","):
-            TaskTag(task.id, int(tag))
+            if tag:
+                TaskTag(task.id, int(tag))
 
         return json.dumps({"taskid": task.id, "tableid": table.id})
 
