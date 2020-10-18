@@ -1,5 +1,5 @@
 from app import app
-from flask import request, session, jsonify, Response
+from flask import request, session, jsonify, Response, render_template
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, Task, Tag, TaskTable, TaskTag, TaskChildren
 import json
@@ -177,7 +177,7 @@ def get_task_list():
 
 @app.route('/', methods=['GET'])
 def index():
-    return "Hello, world"
+    return render_template('index.html')
 
 
 @app.route('/create_tag', methods=['POST'])
