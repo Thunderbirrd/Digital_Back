@@ -7,6 +7,7 @@
     <title>Document</title>
     <link rel="icon" href="static/img/logo.png">
 
+    <link rel="stylesheet" href="static/styles/login.css">
     <link rel="stylesheet" href="static/styles/init.css">
     <link rel="stylesheet" href="static/styles/filter.css">
     <link rel="stylesheet" href="static/styles/managment_buttons.css">
@@ -22,6 +23,16 @@
 </head>
 
 <body>
+        <div id="login-page" class="login-page">
+  <div class="form">
+    <form class="login-form">
+      <input type="text" id="loh" placeholder="логин"/>
+      <input type="password" id="pass" placeholder="пароль"/>
+      <button id="btnlog">войти</button>
+        <p class="message">Логин: admin</p><p class="message">пароль: admin</p>
+    </form>
+    </div>
+    </div>
     <div class="class_create_table my_wrap hide">
         <div class="my_div">
             Имя таблицы: <input type="text" id="input_create_table" placeholder="Имя тегга">
@@ -188,6 +199,20 @@
             panel.classList.toggle("opened_panel")
         })
     </script>
+        <script>
+            let butn = document.getElementById("btnlog");
+            let wtf = document.getElementById("login-page");
+
+            butn.addEventListener("click", async ()=>{
+                let infologin = document.getElementById("loh").value;
+                let infopass = document.getElementById("pass").value;
+                //let userasd = login(infologin, infopass);
+                let a = login(infologin, infopass);
+                    if(a != Error) {
+                        wtf.parentNode.removeChild(wtf);
+                    }
+            });
+        </script>
 </body>
 
 </html>

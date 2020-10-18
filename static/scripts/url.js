@@ -30,7 +30,7 @@ const login = async (login, password) => {
         },
         body: JSON.stringify({login, password})
     });
-    return await responce.json();
+    return responce;
 }
 
 
