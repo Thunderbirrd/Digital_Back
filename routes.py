@@ -249,10 +249,12 @@ def create_single_task():
         tags = json.loads(request.data)["tags"]
         task = Task(leader, None, deadline, short_desc, intensity, None, executor, desc, True, False)
         task.save()
-        tags = tags.split(",")
-        for tag in tags:
-            task_tag = TaskTag(task.id, tag)
-            task_tag.save()
+        if str(tags).count(",") != 0:
+            tags = tags.split(",")
+            for tag in tags:
+                if task:
+                    task_tag = TaskTag(task.id, tag)
+                    task_tag.save()
 
         return json.dumps({"id": task.id})
 

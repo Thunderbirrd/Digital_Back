@@ -1,4 +1,8 @@
-let id = 7;
+const store = {
+    id: -1,
+    tasks: [],
+    dashboards: []
+}
 
 const tree = {
     id: 1,//id задачи
