@@ -59,3 +59,21 @@ function task_create(deadline, short_desc, dash, difficulty){
 
     document.querySelector(".list_tasks ul").appendChild(li)
 }
+// input_create_tag
+document.querySelector("#button_create_tag").addEventListener("click", () =>{
+    const span = document.createElement("span")
+    span.classList.add("list_task_tag")
+    const button = document.createElement("button")
+    const name = document.getElementById("input_create_tag").value
+    const p = document.getElementById("p_id")
+
+    span.textContent = name
+    span.appendChild(button)
+    p.appendChild(button)
+    button.addEventListener("click", async ()=> {
+        span.style.display = "none"
+        
+    })
+
+
+})
