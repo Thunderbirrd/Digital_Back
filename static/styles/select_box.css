@@ -1,0 +1,78 @@
+.select_box {
+    display: flex;
+    border-radius: 9px;
+    width: 100%;
+    flex-direction: column;
+    position: relative;
+}
+
+.select_box .options_container {
+    background-color: white;
+    max-height: 0;
+    width: 100%;
+    opacity: 0;
+    transition: all 0.4s;
+    overflow: hidden;
+    order: 1;
+    margin-bottom: 10px;
+    border-bottom-right-radius: 8px;
+    position: absolute;
+    top: 52px;
+    z-index: 1;
+}
+
+.select_box .option, .selected {
+    padding: 12px 24px;
+    cursor: pointer;
+}
+
+.select_box label {
+    cursor: pointer;
+}
+
+.select_box .option:hover {
+    background-color: #becfec;
+}
+
+.select_box .option .radio {
+    display: none;
+}
+
+.select_box .options_container.active {
+    max-height: 240px;
+    opacity: 1;
+    overflow-y: auto;
+}
+
+.select_box .options_container::-webkit-scrollbar {
+    width: 8px;
+    background-color: white;
+}
+
+.select_box .options_container::-webkit-scrollbar-thumb {
+    background-color: #525861;
+    border-radius: 0 8px 8px 0;
+}
+
+.selected {
+    background-color: white;
+    order: 0;
+    position: relative;
+}
+
+.selected::after {
+    content: "";
+    background-size: contain;
+    background: url("../img/arrow-down.svg") no-repeat;
+    position: absolute;
+    height: 100%;
+    width: 32px;
+    right: 10px;
+    top: 15px;
+    transition: all 0.4s;
+}
+
+.select_box .options_container.active+.selected::after {
+    transform: rotateX(180deg);
+    top: -6px;
+}
