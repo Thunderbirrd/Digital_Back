@@ -74,7 +74,7 @@ class TaskTable(db.Model, Model):
 
     @staticmethod
     def get_all_task_table_by_id(i):
-        return db.session.query(TaskTable).filter(TaskTable.id == i).all()
+        return db.session.query(TaskTable).filter(TaskTable.admin == i).all()
 
 
 class Tag(db.Model, Model):

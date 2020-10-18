@@ -306,8 +306,6 @@ def get_boards():
         queryset = TaskTable.get_all_task_table_by_id(json.loads(request.data)["id"])
         data = []
         for table in queryset:
-            print(table)
-            data.append({"id": table["id"], "name": table["name"]})
-
+            data.append({"id": table.id, "name": table.name})
         return json.dumps(data)
-    return "None"
+    return None
