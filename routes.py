@@ -200,6 +200,18 @@ def create_tag():
             return "Error"
 
 
+@app.route('/delete_tag', methods=['POST'])
+def delete_tag():
+    if request.data:
+        tag_id = int(json.loads(request.data)["id"])
+        tag = Tag.get_tag_by_id(tag_id)
+        if tag:
+            tag.delete()
+            return "Success"
+        else:
+            return "No such tag"
+
+
 @app.route('/create_board', methods=['POST'])
 def create_board():
     if request.data:

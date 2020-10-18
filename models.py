@@ -17,6 +17,10 @@ class Model:
         else:
             return False
 
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
 
 class User(db.Model, Model):
     __tablename__ = 'user'
@@ -158,10 +162,6 @@ class Task(db.Model, Model):
     @staticmethod
     def get_all_task_boards_tasks(i):
         return db.session.query(Task).filter(Task.taskboard_id == i).all()
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
 
 
 class TaskTag(db.Model, Model):
