@@ -72,6 +72,10 @@ class TaskTable(db.Model, Model):
     def get_task_table_by_id(i):
         return db.session.query(TaskTable).filter(TaskTable.id == i).first()
 
+    @staticmethod
+    def get_all_task_table_by_id(i):
+        return db.session.query(TaskTable).filter(TaskTable.id == i).all()
+
 
 class Tag(db.Model, Model):
     __tablename__ = 'tag'

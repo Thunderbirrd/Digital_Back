@@ -43,7 +43,8 @@ const Tree = {
         const x0 = xCenter - this._widthTask / 2;
         const y0 = yCenter;
 
-        this._stage.rect(x0, y0, this._widthTask, this._heightTask).fill("#a84832");
+        this._stage.rect(x0, y0, this._widthTask, this._heightTask).fill("#7a9cd6");
+
 
         const padding = 10;
 

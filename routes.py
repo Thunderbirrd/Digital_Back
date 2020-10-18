@@ -296,3 +296,14 @@ def delete_task():
             return json.dumps("Task deleted successfully")
         else:
             return json.dumps("No such task")
+
+
+@app.route('/get_boards', methods=['GET'])
+def get_boards():
+    if request.data:
+        queryset = TaskTable.get_all_task_table_by_id(request.id)
+        data = []
+        for table in queryset:
+            data.append({"id": table.id, "name": table.name})
+
+        return json.dumps(data)
