@@ -28,19 +28,14 @@ window.addEventListener("click", (e) => {
     toggleOptionsContainer(e.target);
 });
 
-// const postPost = async () => {
-//     const body = JSON.stringify( {id:12});
+const postPost = async () => {
+    const responce = await fetch("/delete_task", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: body
+    });
 
-//     console.log(body)
-
-//     const responce = await fetch("https://back228.herokuapp.com/delete_task", {
-//         method: "POST",
-//         mode: 'no-cors',
-//         headers: {
-            
-//         },
-//         body: body
-//     });
-
-//     console.log(await responce.json());
-// }
+    console.log(await responce.json());
+}
