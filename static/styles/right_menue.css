@@ -25,7 +25,7 @@
 	position: fixed;
 	right: -400px;
 	width: 400px;
-	height: calc(100% - 56px);
+	height: calc(100% - 101px);
     border: solid black 1px;
     box-sizing: border-box;
 	-webkit-transition-duration: 0.5s;
