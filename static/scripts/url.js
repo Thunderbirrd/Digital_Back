@@ -94,13 +94,13 @@ const create_tag = async (name, tasktable_id, user_id) => {
 }
 
 
-const create_board = async (admin, name, short_desc, leader, executor, difficulty, desc, deadline) => {
+const create_board = async (admin, name, short_desc, leader, executor, difficulty, desc, deadline, tags) => {
     const responce = await fetch("/create_board", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: JSON.stringify({admin, name, short_desc, leader, executor, difficulty, desc, deadline})
+        body: JSON.stringify({admin, name, short_desc, leader, executor, difficulty, desc, deadline, tags})
     });
     return await responce.json();
 }
