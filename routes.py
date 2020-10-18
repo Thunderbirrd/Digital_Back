@@ -1,5 +1,5 @@
 from app import app
-from flask import request, session, jsonify, Response, render_template
+from flask import request, session, render_template
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, Task, Tag, TaskTable, TaskTag, TaskChildren
 import json
@@ -290,16 +290,6 @@ def delete_task():
         task = Task.get_task_by_id(task_id)
         if task:
             task.delete()
-            resp = Response(jsonify("Task deleted successfully"))
-            resp.headers["Access-Control-Allow-Origin"] = "*"
-            resp.headers["Access-Control-Allow-Credentials"] = True
-            resp.headers["Access-Control-Allow-Methods"] = 'POST'
-            resp.headers["Access-Control-Allow-Headers"] = 'Content-Type, Authorization'
-            return resp
+            return json.dumps("Task deleted successfully")
         else:
-            resp = Response(jsonify("No such task"))
-            resp.headers["Access-Control-Allow-Origin"] = "*"
-            resp.headers["Access-Control-Allow-Credentials"] = True
-            resp.headers["Access-Control-Allow-Methods"] = 'POST'
-            resp.headers["Access-Control-Allow-Headers"] = 'Content-Type, Authorization'
-            return resp
+            return json.dumps("No such task")
