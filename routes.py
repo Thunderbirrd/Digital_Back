@@ -300,12 +300,13 @@ def delete_task():
             return json.dumps("No such task")
 
 
-@app.route('/get_boards', methods=['GET'])
+@app.route('/get_boards', methods=['POST'])
 def get_boards():
     if request:
-        queryset = TaskTable.get_all_task_table_by_id(request.id)
+        queryset = TaskTable.get_all_task_table_by_id(json.loads(request.data)["id"])
         data = []
         for table in queryset:
+            print(table)
             data.append({"id": table["id"], "name": table["name"]})
 
         return json.dumps(data)
