@@ -8,11 +8,11 @@ import json
 @app.route('/register', methods=['POST'])
 def register():
     if request.data:
-        login = request.form.get("login")
-        password = request.form.get("password")
-        name = request.form.get("name")
-        surname = request.form.get("surname")
-        lastname = request.form.get("lastname")
+        login = json.loads(request.data)["login"]
+        password = json.loads(request.data)["password"]
+        name = json.loads(request.data)["name"]
+        surname = json.loads(request.data)["surname"]
+        lastname = json.loads(request.data)["lastname"]
         if User.check_login_is_unique(login):
             user = User(login, generate_password_hash(password), name, surname, lastname)
             user.save()
@@ -24,7 +24,7 @@ def register():
 @app.route('/get_user_id_by_login', methods=['POST'])
 def get_user_id_by_login():
     if request.data:
-        user_login = request.form.get("login")
+        user_login = json.loads(request.data)["login"]
         user = User.get_user_by_login(user_login)
         if user:
             return str(user.id)
@@ -35,8 +35,8 @@ def get_user_id_by_login():
 @app.route('/login', methods=['POST'])
 def login():
     if request.data:
-        login = request.form.get("login")
-        password = request.form.get("password")
+        login = json.loads(request.data)["login"]
+        password = json.loads(request.data)["password"]
         user = User.get_user_by_login(login)
         if user and check_password_hash(user.password, password):
             session["auth"] = user.id
@@ -69,14 +69,14 @@ def login():
 @app.route('/createChild', methods=['POST'])
 def create_child():
     if request.data:
-        parent = request.form.get("parent")
-        leader = request.form.get("leader")
-        executor = request.form.get("executor")
-        deadline = request.form.get("deadline")
-        short_desc = request.form.get("short_desc")
-        desc = request.form.get("desc")
-        intensity = request.form.get("difficulty")
-        tags = request.form.get("tags")
+        parent = json.loads(request.data)["parent"]
+        leader = json.loads(request.data)["leader"]
+        executor = json.loads(request.data)["executor"]
+        deadline = json.loads(request.data)["deadline"]
+        short_desc = json.loads(request.data)["short_desc"]
+        desc = json.loads(request.data)["desc"]
+        intensity = json.loads(request.data)["difficulty"]
+        tags = json.loads(request.data)["tags"]
         parent = Task.get_task_by_id(int(parent))
         parent_id = parent.id
         task = Task(leader, parent.taskboard_id, deadline, short_desc, intensity, parent_id, executor, desc, False)
@@ -93,7 +93,7 @@ def create_child():
 @app.route('/get_task_by_id', methods=['POST'])
 def get_task_by_id():
     if request.data:
-        task = request.form.get("id")
+        task = json.loads(request.data)["id"]
         task = Task.get_task_by_id(task)
         tags = list(TaskTag.get_all_tasks_tags(task.id))
         for i in range(len(tags)):
@@ -121,7 +121,7 @@ def get_task_by_id():
 @app.route('/get_tag_by_id', methods=['POST'])
 def get_tag_by_id():
     if request.data:
-        tag = request.form.get("id")
+        tag = json.loads(request.data)["id"]
         tag = Tag.get_tag_by_id(tag)
         return {
             "id": tag.id,
@@ -134,7 +134,7 @@ def get_tag_by_id():
 @app.route('/getListTask', methods=['POST'])
 def get_task_list():
     if request.data:
-        user_id = int(request.form.get("id"))
+        user_id = int(json.loads(request.data)["id"])
         tasks = []
         lead = Task.get_all_tasks_by_leader_id(user_id)
         ex = Task.get_all_tasks_by_executor_id(user_id)
@@ -183,9 +183,9 @@ def index():
 @app.route('/create_tag', methods=['POST'])
 def create_tag():
     if request.data:
-        name = request.form.get("name")
-        tasktable_id = request.form.get("tasktable_id")
-        user_id = request.form.get("user_id")
+        name = json.loads(request.data)["name"]
+        tasktable_id = json.loads(request.data)["tasktable_id"]
+        user_id = json.loads(request.data)["user_id"]
         if int(tasktable_id) != 0:
             tag = Tag(name, tasktable_id)
             tag.save()
@@ -201,21 +201,21 @@ def create_tag():
 @app.route('/create_board', methods=['POST'])
 def create_board():
     if request.data:
-        admin = request.form.get("admin")
-        name = request.form.get("name")
+        admin = json.loads(request.data)["admin"]
+        name = json.loads(request.data)["name"]
         table = TaskTable(name, admin)
         table.save()
-        short_desc = request.form.get("short_desc")
-        leader = request.form.get("leader")
-        executor = request.form.get("executor")
+        short_desc = json.loads(request.data)["short_desc"]
+        leader = json.loads(request.data)["leader"]
+        executor = json.loads(request.data)["executor"]
         taskboard_id = table.id
-        intensity = request.form.get("difficulty")
-        desc = request.form.get("desc")
-        deadline = request.form.get("deadline")
+        intensity = json.loads(request.data)["difficulty"]
+        desc = json.loads(request.data)["desc"]
+        deadline = json.loads(request.data)["deadline"]
         is_single_task = False
         task = Task(leader, taskboard_id, deadline, short_desc, intensity, None, executor, desc, is_single_task)
         task.save()
-        for tag in str(request.form.get("tags")).split(","):
+        for tag in str(json.loads(request.data)["tags"]).split(","):
             TaskTag(task.id, int(tag))
 
         return json.dumps({"taskid": task.id, "tableid": table.id})
@@ -224,7 +224,7 @@ def create_board():
 @app.route('/change_task_status', methods=['POST'])
 def change_task_status():
     if request.data:
-        task_id = request.form.get("id")
+        task_id = json.loads(request.data)["id"]
         task = Task.get_task_by_id(task_id)
         if task:
             task.change_task_status()
@@ -237,13 +237,13 @@ def change_task_status():
 @app.route('/create_single_task', methods=['POST'])
 def create_single_task():
     if request.data:
-        short_desc = request.form.get("short_desc")
-        desc = request.form.get("desc")
-        leader = int(request.form.get("leader"))
-        executor = int(request.form.get("executor"))
-        intensity = int(request.form.get("difficulty"))
-        deadline = request.form.get("deadline")
-        tags = request.form.get("tags")
+        short_desc = json.loads(request.data)["short_desc"]
+        desc = json.loads(request.data)["desc"]
+        leader = int(json.loads(request.data)["leader"])
+        executor = int(json.loads(request.data)["executor"])
+        intensity = int(json.loads(request.data)["difficulty"])
+        deadline = json.loads(request.data)["deadline"]
+        tags = json.loads(request.data)["tags"]
         task = Task(leader, None, deadline, short_desc, intensity, None, executor, desc, True, False)
         task.save()
         tags = tags.split(",")
@@ -257,7 +257,7 @@ def create_single_task():
 @app.route('/get_tree', methods=['POST'])
 def get_tree():
     if request.data:
-        task_table = request.form.get("id")
+        task_table = json.loads(request.data)["id"]
         tasks = Task.get_all_task_boards_tasks(int(task_table))
         d = []
         for task in tasks:
