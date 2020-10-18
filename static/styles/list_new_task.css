@@ -1,0 +1,83 @@
+.list_new_task {
+    padding-left: 20px;
+    font-size: 28px;
+}
+
+.list_task_title1 {
+    font-size: 15pt;
+    position: relative;
+
+}
+
+.list_task_title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.list_task_title2 {
+    position: absolute;
+    right: 0;
+}
+
+.list_task_title1:nth-child(2n) {
+    margin-left: 10px; 
+    margin-right: 20px;
+}
+
+.list_task_title1:nth-child(2n+1) {
+    margin-right: 10px; 
+}
+
+.list_task_title1:first-child {
+    margin-bottom: 10px;
+}
+
+.list_task_input1 {
+    width: 80%;
+    box-sizing: border-box;
+    background-color: #b8e3fe;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+.list_task_input2 {
+    width: 80%;
+    height: 350px;
+    resize: none;
+    background-color: #b8e3fe;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+.list_task_input_color {
+    background-color: #b8e3fe;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+.list_task_table {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.list_task_button {
+    box-sizing: border-box;
+    background-color: #233342;
+    color: white;
+    cursor: pointer;
+    padding: 6px;
+    font-size: 18px;
+    margin-right: 20px;
+    margin-top: 5px;
+}
+
+.list_task_tag {
+    box-sizing: border-box;
+    font-size: 18px;
+    padding: 5px;
+    background-color: #99CCCC;
+    border-radius: 10px;
+
+
+}
