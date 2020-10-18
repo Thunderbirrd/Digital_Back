@@ -23,6 +23,8 @@ document.querySelector(".list_task_button").addEventListener("click", async () =
     store.tasks.forEach(task => task_create(task.deadline, task.short_desc, task.dash, task.difficulty));
 });
 
+
+
 function task_create(deadline, short_desc, dash, difficulty){
     const li = document.createElement("li")
     li.classList.add("tasks")

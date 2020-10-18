@@ -288,6 +288,7 @@ def get_tree():
                 "id": task.id,
                 "isSingleTask": task.is_single_task,
                 "leader": task.leader,
+                "parent": task.parent,
                 "executor": task.executor,
                 "shortdescription": task.short_desc,
                 "deadline": task.deadline.strftime("%Y-%m-%d"),
