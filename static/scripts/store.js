@@ -1,4 +1,10 @@
-tree = {
+const store = {
+    id: -1,
+    tasks: [],
+    dashboards: []
+}
+
+const tree = {
     id: 1,//id задачи
     leader: 1,
     executor: 1,

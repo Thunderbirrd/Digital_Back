@@ -1,3 +1,28 @@
+const list_new_task = document.querySelector(".list_new_task");
+
+document.querySelector(".managment_buttons_add").addEventListener("click", () => {
+    list_new_task.classList.remove("hide");
+});
+
+document.querySelector(".list_task_button").addEventListener("click", async () => {
+    const short_desc = document.querySelector(".list_task_input1").value;
+    const desc = document.querySelector(".list_task_input2").value;
+
+    const ch = document.getElementById("checking").value;
+    const ex = document.getElementById("executor").value;
+
+    const leader = await get_user_id_by_login(ch);
+    const executor = await get_user_id_by_login(ex);
+
+    const difficulty = document.getElementById("rangeValue").textContent;
+    const deadline = document.getElementById("deadline").value;
+
+    await create_single_task(short_desc, desc, leader, executor, difficulty, deadline, "");
+
+    store.tasks = await get_task_list(store.id);
+    store.tasks.forEach(task => task_create(task.deadline, task.short_desc, task.dash, task.difficulty));
+});
+
 function task_create(deadline, short_desc, dash, difficulty){
     const li = document.createElement("li")
     li.classList.add("tasks")

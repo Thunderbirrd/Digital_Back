@@ -44,43 +44,11 @@
     </div>
     <div class="list_tasks">
         <ul>
-            <li class="tasks">
-                <div class="tasks_description">
-                    <p class="deadline">20.10</p>
-                    <div class="descrip">
-                        <p class="dash">Бухгалтерия</p>
-                        <p class="task">Сделать расписание</p>
-                    </div>
-                </div>
-                <div class="duff">
-                    <div class="level"></div>
-                    <div class="level"></div>
-                    <div class="level"></div>
-                    <div class="level"></div>
-                    <div class="level"></div>
-                </div>
-            </li>
-            <li class="tasks">
-                <div class="tasks_description">
-                    <p class="deadline">23.10</p>
-                    <div class="descrip">
-                        <p class="dash">IT отдел</p>
-                        <p class="task">Выиграть хакатон</p>
-                    </div>
-                </div>
-                <div class="duff">
-                    <div class="level"></div>
-                    <div class="level"></div>
-                    <div class="level"></div>
-                    <div class="level"></div>
-                    <div class="level"></div>
-                </div>
-            </li>
         </ul>
     </div>
 
     <main>
-        <div class="wrap_tree" >
+        <div class="wrap_tree hide">
             <div class="tree">
                 <div id="contauner"></div>
             </div>
@@ -105,7 +73,7 @@
             </div>
         </div>
 
-        <div class="list_new_task">
+        <div class="list_new_task hide">
             <p class="list_task_title"><b>Краткое описание задачи</b><button class="list_task_button">Сохранить</button> </p>        
 
             <input type="text" class="list_task_input1" name="short_descpription" maxlength="50">
@@ -115,11 +83,11 @@
             <div class="list_task_table">
                 <span class="list_task_title1">
                     Контролирующий: 
-                    <span class="list_task_title2"><input type="text" class="list_task_input_color" name="checking"></span>
+                    <span class="list_task_title2"><input type="text" class="list_task_input_color" id="checking" name="checking"></span>
                 </span> 
                 <span class="list_task_title1">
                     Исполнитель:
-                    <span class="list_task_title2"><input type="text" class="list_task_input_color" name="executor"></span>
+                    <span class="list_task_title2"><input type="text" class="list_task_input_color" id="executor" name="executor"></span>
                 </span>
                 <span class="list_task_title1">Сложность:
                     <span class="list_task_title2">
@@ -128,7 +96,7 @@
                     </span>
                 </span>
                 <span class="list_task_title1"> Дедлайн:
-                    <span class="list_task_title2"><input type="date" class="list_task_input_color" name="deadline"></span>
+                    <span class="list_task_title2"><input type="date" class="list_task_input_color" id="deadline" name="deadline"></span>
                 </span>
             </div>
 
@@ -139,10 +107,6 @@
     </main>
     <div class="list_dashboards">
         <ul class="list_dashboards_list">
-            <li class="list_dashboards_item"><span>Контрольная панель</span></li>
-            <li class="list_dashboards_item"><span>Контрольная панель</span></li>
-            <li class="list_dashboards_item"><span>Контрольная панель</span></li>
-            <li class="list_dashboards_item"><span>Контрольная панель</span></li>
             <li class="list_dashboards_item list_dashboards_add"><button>+</button></li>
         </ul>
     </div>
@@ -153,6 +117,7 @@
     <script src="static/scripts/tree.js"></script>
     <script src="static/scripts/events.js"></script>
     <script src="static/scripts/maker.js"></script>
+    <script src="static/scripts/initDatas.js"></script>
     <script>
         let panel = document.getElementById("s_panel")
         document.querySelector("#bt1 img").addEventListener("click", ()=>{
