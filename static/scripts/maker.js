@@ -61,6 +61,8 @@ function task_create(deadline, short_desc, dash, difficulty){
 }
 // input_create_tag
 document.querySelector("#button_create_tag").addEventListener("click", async() =>{
+    document.querySelector(".create_tag_wrap").classList.add("hide")
+
     const span = document.createElement("span")
     span.classList.add("list_task_tag")
     const button = document.createElement("button")

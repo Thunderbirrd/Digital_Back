@@ -36,8 +36,8 @@
     </div>
     <div class="managment_buttons">
         <p>Modern<br>Task Manager</p>
-        <button class="managment_buttons_add hide">Добавить</button>
-        <button class="managment_buttons_remove hide">Удалить</button>
+        <button class="managment_buttons_add">Добавить</button>
+        <button class="managment_buttons_remove">Удалить</button>
     </div>
     <div class="filter">
         <div class="filter_list_boards">
@@ -58,7 +58,7 @@
         <div id="bt1" class="button1"><img style="background-color: white" src="static/img/menue.png" height="56px"
                 width="100%"></div>
     </div>
-    <div class="list_tasks hide">
+    <div class="list_tasks">
         <ul>
         </ul>
     </div>
@@ -135,6 +135,12 @@
             <p id="p_id"><b>Теги </b>
                 <span class="list_task_tag">frontend <button style="cursor: pointer;">X</button></span>
 {#                <input type="text" class="list_task_input_color">#}
+                <button id="go_to_create_tag">Создать тег</button>
+                <script>
+                    document.getElementById("go_to_create_tag").addEventListener("click", () => {
+                        document.querySelector(".create_tag_wrap").classList.remove("hide");
+                    });
+                </script>
             </p>
         </div>
     </main>
@@ -160,19 +166,20 @@
             const list_tasks = document.querySelector(".list_tasks");
             const wrap_tree = document.querySelector(".wrap_tree");
 
-            document.querySelectorAll(".list_dashboards_list li:not(:last-child)").forEach(li => {
-                if (li.id === "zero_panel") {
-                    managment_buttons_add.classList.remove("hide");
-                    managment_buttons_remove.remove("hide");
-                    list_tasks.classList.remove("hide");
-                    wrap_tree.classList.add("hide");
-                } else {
-                    managment_buttons_add.classList.add("hide");
-                    managment_buttons_remove.add("hide");
-                    list_tasks.classList.add("hide");
-                    wrap_tree.classList.remove("hide");
-                }
-            });
+            // document.querySelectorAll(".list_dashboards_list li:not(:last-child)").forEach(li => {
+            //     li.addEventListener( 
+            //     if (li.id === "zero_panel") {
+            //         managment_buttons_add.classList.remove("hide");
+            //         managment_buttons_remove.remove("hide");
+            //         list_tasks.classList.remove("hide");
+            //         wrap_tree.classList.add("hide");
+            //     } else {
+            //         managment_buttons_add.classList.add("hide");
+            //         managment_buttons_remove.add("hide");
+            //         list_tasks.classList.add("hide");
+            //         wrap_tree.classList.remove("hide");
+            //     }
+            // });
         });
     </script>
     <script>

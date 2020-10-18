@@ -82,13 +82,13 @@ const get_task_list = async (id) => {
 }
 
 
-const create_tag = async (name, tasktable_id, user_id) => {
+const create_tag = async (name, user_id) => {
     const responce = await fetch("/create_tag", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: JSON.stringify({name, tasktable_id, user_id})
+        body: JSON.stringify({name, user_id, tasktable_id: 0})
     });
     return await responce.json();
 }
