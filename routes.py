@@ -112,7 +112,7 @@ def get_task_by_id():
             "taskboard_id": task.taskboard_id,
             "intensity": task.intensity,
             "desc": task.desc,
-            "deadline": task.deadline.strftime("%Y-%m-%d"),
+            "deadline": task.deadline.strftime("%d.%m"),
             "is_single_task": task.is_single_task,
             "tags": tags,
             "children": children
