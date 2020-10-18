@@ -53,7 +53,7 @@ const Tree = {
 
         const fontSize = 18;
         const textStyleDesc = { fontFamily: "Georgia", fontSize: fontSize + "px" };
-        this._stage.text(x0 + padding, y0 + this._heightTask / 2 - fontSize / 2, data.short_desc, textStyleDesc);
+        this._stage.text(x0 + padding, y0 + this._heightTask / 2 - fontSize / 2, data.shortdescription, textStyleDesc);
     },
 
     //рисуем рекурсивно дерево
