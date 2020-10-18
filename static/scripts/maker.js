@@ -20,7 +20,7 @@ document.querySelector(".list_task_button").addEventListener("click", async () =
     await create_single_task(short_desc, desc, leader, executor, difficulty, deadline, "");
 
     store.tasks = await get_task_list(store.id);
-    store.tasks.forEach(task => task_create(task.deadline, task.short_desc, task.dash, task.difficulty));
+    store.tasks.forEach(task => task_create(task.deadline, task.shortdescription, task.dash, task.difficulty));
 });
 
 
