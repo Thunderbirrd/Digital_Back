@@ -1,4 +1,6 @@
-tree = {
+let id = 7;
+
+const tree = {
     id: 1,//id задачи
     leader: 1,
     executor: 1,
