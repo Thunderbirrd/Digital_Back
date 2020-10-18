@@ -164,3 +164,15 @@ const getTashboards = async (id) => {
 
     return await responce.json();
 }
+
+const deleteTag = async (id) => {
+    const responce = await fetch("/delete_tag", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify({id})
+    });
+
+    return await responce.json();
+}
