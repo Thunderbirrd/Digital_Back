@@ -83,10 +83,12 @@ def create_child():
         task.save()
         task_children = TaskChildren(parent_id, task.id)
         task_children.save()
-        tags = tags.split(",")
-        for tag in tags:
-            task_tag = TaskTag(int(task.id), int(tag))
-            task_tag.save()
+        if str(tags).count(",") != 0:
+            tags = tags.split(",")
+            for tag in tags:
+                if tag:
+                    task_tag = TaskTag(int(task.id), int(tag))
+                    task_tag.save()
         return json.dumps({"id": task.id})
 
 
